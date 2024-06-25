@@ -1,5 +1,6 @@
 package com.example.demo.domain.board.entity;
 
+import com.example.demo.domain.comment.entity.Comment;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -36,4 +37,8 @@ public class Board extends BaseEntity {
             joinColumns = @JoinColumn(name = "board_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> likes = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 }
