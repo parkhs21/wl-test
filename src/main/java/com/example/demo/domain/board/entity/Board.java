@@ -7,7 +7,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -27,16 +29,20 @@ public class Board extends BaseEntity {
     @Column(length = 1000, nullable = false)
     private String content;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer_id", nullable = false)
     private User writer;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Integer likeCount = 0;
 
     @Builder.Default
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "board_like",
             joinColumns = @JoinColumn(name = "board_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> likes = new ArrayList<>();
+    private Set<User> likes = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
@@ -45,5 +51,15 @@ public class Board extends BaseEntity {
     public void update(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public void like(User user) {
+        this.likeCount += 1;
+        this.likes.add(user);
+    }
+
+    public void unlike(User user) {
+        this.likeCount -= 1;
+        this.likes.remove(user);
     }
 }

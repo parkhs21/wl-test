@@ -45,4 +45,24 @@ public class BoardCommandServiceImpl implements BoardCommandService {
 
         boardRepository.delete(selectedBoard);
     }
+
+    @Override
+    @Transactional
+    public void likeBoard(Board selectedBoard, User selectedUser) {
+        if (selectedBoard.getLikes().contains(selectedUser))
+            throw new GeneralException(BoardErrorStatus.BOARD_LIKE_CONFLICT);
+
+        selectedBoard.like(selectedUser);
+        boardRepository.save(selectedBoard);
+    }
+
+    @Override
+    @Transactional
+    public void unlikeBoard(Board selectedBoard, User selectedUser) {
+        if (!selectedBoard.getLikes().contains(selectedUser))
+            throw new GeneralException(BoardErrorStatus.BOARD_LIKE_NOT_FOUND);
+
+        selectedBoard.unlike(selectedUser);
+        boardRepository.save(selectedBoard);
+    }
 }

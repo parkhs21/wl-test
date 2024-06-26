@@ -61,12 +61,18 @@ public class BoardController implements BoardControllerDocs {
     @PostMapping("/{board_id}/like")
     public ApiPayload<?> likeBoard(@PathVariable("board_id") Long boardId,
                                    @RequestParam("user_id") Long userId) {
-        return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
+        Board selectedBoard = boardQueryService.getBoard(boardId);
+        User selectedUser = userQueryService.getUser(userId);
+        boardCommandService.likeBoard(selectedBoard, selectedUser);
+        return ApiPayload.onSuccess(CommonSuccessStatus.CREATED, null);
     }
 
     @DeleteMapping("/{board_id}/like")
     public ApiPayload<?> unlikeBoard(@PathVariable("board_id") Long boardId,
                                      @RequestParam("user_id") Long userId) {
+        Board selectedBoard = boardQueryService.getBoard(boardId);
+        User selectedUser = userQueryService.getUser(userId);
+        boardCommandService.unlikeBoard(selectedBoard, selectedUser);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 }

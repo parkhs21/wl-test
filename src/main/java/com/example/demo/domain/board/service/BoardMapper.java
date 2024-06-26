@@ -21,7 +21,7 @@ public class BoardMapper {
                 .title(board.getTitle())
                 .content(board.getContent())
                 .writer(UserMapper.toUserGetRes(board.getWriter()))
-                .likeCount(0L)
+                .likeCount(board.getLikeCount())
                 .createdAt(board.getCreatedAt())
                 .updatedAt(board.getUpdatedAt())
                 .build();

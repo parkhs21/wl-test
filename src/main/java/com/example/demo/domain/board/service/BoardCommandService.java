@@ -9,4 +9,6 @@ public interface BoardCommandService {
     void createBoard(User writer, BoardCreateReq req);
     void updateBoard(Board selectedBoard, Long userId, BoardUpdateReq req);
     void deleteBoard(Board selectedBoard, Long userId);
+    void likeBoard(Board selectedBoard, User selectedUser);
+    void unlikeBoard(Board selectedBoard, User selectedUser);
 }
