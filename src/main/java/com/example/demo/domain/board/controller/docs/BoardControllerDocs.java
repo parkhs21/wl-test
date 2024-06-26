@@ -19,22 +19,22 @@ public interface BoardControllerDocs {
                                      @Valid @RequestBody BoardCreateReq req);
 
     @Operation(summary = "게시글 조회", description = "게시글의 정보를 조회합니다.")
-    public ApiPayload<BoardGetRes> getBoard(@PathVariable("id") Long id);
+    public ApiPayload<BoardGetRes> getBoard(@PathVariable("board_id") Long boardId);
 
     @Operation(summary = "게시글 수정", description = "게시글의 정보를 수정합니다.")
-    public ApiPayload<?> updateBoard(@PathVariable("id") Long id,
+    public ApiPayload<?> updateBoard(@PathVariable("board_id") Long boardId,
                                      @RequestParam("user_id") Long userId,
                                      @Valid @RequestBody BoardUpdateReq req);
 
     @Operation(summary = "게시글 삭제", description = "게시글을 삭제합니다.")
-    public ApiPayload<?> deleteBoard(@PathVariable("id") Long id,
+    public ApiPayload<?> deleteBoard(@PathVariable("board_id") Long boardId,
                                      @RequestParam("user_id") Long userId);
 
     @Operation(summary = "게시글 좋아요", description = "게시글에 좋아요 표시합니다.")
-    public ApiPayload<?> likeBoard(@PathVariable("id") Long id,
+    public ApiPayload<?> likeBoard(@PathVariable("board_id") Long boardId,
                                    @RequestParam("user_id") Long userId);
 
     @Operation(summary = "게시글 좋아요 취소", description = "게시글에 좋아요 표시를 취소합니다.")
-    public ApiPayload<?> unlikeBoard(@PathVariable("id") Long id,
+    public ApiPayload<?> unlikeBoard(@PathVariable("board_id") Long boardId,
                                      @RequestParam("user_id") Long userId);
 }
