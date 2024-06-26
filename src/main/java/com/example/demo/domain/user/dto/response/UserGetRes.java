@@ -4,7 +4,8 @@ import lombok.Builder;
 
 @Builder
 public record UserGetRes(
-        Long id,
-        String name
+    Long id,
+    String name,
+    String email
 ) {
 }

@@ -19,7 +19,19 @@ public class User extends BaseEntity {
     @Column(length = 20, nullable = false)
     private String name;
 
+    @Column(length = 50, nullable = false, unique = true)
+    private String email;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private UserStatus status = UserStatus.ACTIVE;      // ACTIVE,INACTIVE
+
+    public void update(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public void delete() {
+        this.status = UserStatus.INACTIVE;
+    }
 }
