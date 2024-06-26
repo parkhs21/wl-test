@@ -6,7 +6,6 @@ import com.example.demo.domain.board.dto.request.BoardUpdateReq;
 import com.example.demo.domain.board.dto.response.BoardGetRes;
 import com.example.demo.global.payload.ApiPayload;
 import com.example.demo.global.payload.CommonSuccessStatus;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
