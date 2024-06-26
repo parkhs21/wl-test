@@ -7,4 +7,5 @@ import com.example.demo.domain.user.entity.User;
 public interface UserCommandService {
     void joinUser(UserCreateReq req);
     void updateUser(User selectedUser, UserUpdateReq req);
+    void deleteUser(User selectedUser);
 }

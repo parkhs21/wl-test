@@ -45,7 +45,9 @@ public class UserController implements UserControllerDocs {
     }
 
     @DeleteMapping("")
-    public ApiPayload<?> deleteUser(@RequestParam("id") Long id) {
+    public ApiPayload<?> deleteUser(@RequestParam("user_id") Long userId) {
+        User selectedUser = userQueryService.getUser(userId);
+        userCommandService.deleteUser(selectedUser);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 

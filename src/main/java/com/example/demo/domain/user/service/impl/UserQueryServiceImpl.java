@@ -2,6 +2,7 @@ package com.example.demo.domain.user.service.impl;
 
 import com.example.demo.domain.user.controller.UserErrorStatus;
 import com.example.demo.domain.user.entity.User;
+import com.example.demo.domain.user.entity.UserStatus;
 import com.example.demo.domain.user.repository.UserRepository;
 import com.example.demo.domain.user.service.UserQueryService;
 import com.example.demo.global.exception.GeneralException;
@@ -18,7 +19,7 @@ public class UserQueryServiceImpl implements UserQueryService {
 
     @Override
     public User getUser(Long userId) {
-        return userRepository.findById(userId)
+        return userRepository.findByIdAndStatus(userId, UserStatus.ACTIVE)
                 .orElseThrow(() -> new GeneralException(UserErrorStatus.USER_NOT_FOUND));
     }
 }

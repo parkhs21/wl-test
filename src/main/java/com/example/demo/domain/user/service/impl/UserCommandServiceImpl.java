@@ -38,4 +38,12 @@ public class UserCommandServiceImpl implements UserCommandService {
         selectedUser.update(req.name(), req.email());
         userRepository.save(selectedUser);
     }
+
+    @Override
+    @Transactional
+    public void deleteUser(User selectedUser) {
+        selectedUser.delete();
+        userRepository.save(selectedUser);
+    }
+
 }

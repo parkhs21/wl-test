@@ -30,4 +30,8 @@ public class User extends BaseEntity {
         this.name = name;
         this.email = email;
     }
+
+    public void delete() {
+        this.status = UserStatus.INACTIVE;
+    }
 }
