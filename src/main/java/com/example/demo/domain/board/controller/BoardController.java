@@ -45,6 +45,8 @@ public class BoardController implements BoardControllerDocs {
     public ApiPayload<?> updateBoard(@PathVariable("board_id") Long boardId,
                                      @RequestParam("user_id") Long userId,
                                      @Valid @RequestBody BoardUpdateReq req) {
+        Board selectedBoard = boardQueryService.getBoard(boardId);
+        boardCommandService.updateBoard(selectedBoard, userId, req);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 
