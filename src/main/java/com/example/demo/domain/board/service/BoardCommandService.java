@@ -8,4 +8,5 @@ import com.example.demo.domain.user.entity.User;
 public interface BoardCommandService {
     void createBoard(User writer, BoardCreateReq req);
     void updateBoard(Board selectedBoard, Long userId, BoardUpdateReq req);
+    void deleteBoard(Board selectedBoard, Long userId);
 }

@@ -36,4 +36,13 @@ public class BoardCommandServiceImpl implements BoardCommandService {
         selectedBoard.update(req.title(), req.content());
         boardRepository.save(selectedBoard);
     }
+
+    @Override
+    @Transactional
+    public void deleteBoard(Board selectedBoard, Long userId) {
+        if (!selectedBoard.getWriter().getId().equals(userId))
+            throw new GeneralException(BoardErrorStatus.BOARD_UNAUTHORIZED);
+
+        boardRepository.delete(selectedBoard);
+    }
 }

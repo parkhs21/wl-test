@@ -53,6 +53,8 @@ public class BoardController implements BoardControllerDocs {
     @DeleteMapping("/{board_id}")
     public ApiPayload<?> deleteBoard(@PathVariable("board_id") Long boardId,
                                      @RequestParam("user_id") Long userId) {
+        Board selectedBoard = boardQueryService.getBoard(boardId);
+        boardCommandService.deleteBoard(selectedBoard, userId);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 
