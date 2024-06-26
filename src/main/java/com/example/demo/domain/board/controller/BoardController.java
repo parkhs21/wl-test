@@ -4,6 +4,10 @@ import com.example.demo.domain.board.controller.docs.BoardControllerDocs;
 import com.example.demo.domain.board.dto.request.BoardCreateReq;
 import com.example.demo.domain.board.dto.request.BoardUpdateReq;
 import com.example.demo.domain.board.dto.response.BoardGetRes;
+import com.example.demo.domain.board.service.BoardCommandService;
+import com.example.demo.domain.board.service.BoardQueryService;
+import com.example.demo.domain.user.entity.User;
+import com.example.demo.domain.user.service.UserQueryService;
 import com.example.demo.global.payload.ApiPayload;
 import com.example.demo.global.payload.CommonSuccessStatus;
 import jakarta.validation.Valid;
@@ -16,9 +20,16 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/board")
 public class BoardController implements BoardControllerDocs {
+
+    private final UserQueryService userQueryService;
+    private final BoardQueryService boardQueryService;
+    private final BoardCommandService boardCommandService;
+
     @PostMapping("")
     public ApiPayload<?> createBoard(@RequestParam("user_id") Long userId,
                                      @Valid @RequestBody BoardCreateReq req) {
+        User writer = userQueryService.getUser(userId);
+        boardCommandService.createBoard(writer, req);
         return ApiPayload.onSuccess(CommonSuccessStatus.CREATED, null);
     }
 
