@@ -25,4 +25,9 @@ public class User extends BaseEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private UserStatus status = UserStatus.ACTIVE;      // ACTIVE,INACTIVE
+
+    public void update(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 }

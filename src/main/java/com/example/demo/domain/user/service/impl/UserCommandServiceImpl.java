@@ -2,6 +2,7 @@ package com.example.demo.domain.user.service.impl;
 
 import com.example.demo.domain.user.controller.UserErrorStatus;
 import com.example.demo.domain.user.dto.request.UserCreateReq;
+import com.example.demo.domain.user.dto.request.UserUpdateReq;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.repository.UserRepository;
 import com.example.demo.domain.user.service.UserCommandService;
@@ -26,5 +27,15 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         User newUser = UserMapper.toUser(req);
         userRepository.save(newUser);
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(User selectedUser, UserUpdateReq req) {
+        if (!selectedUser.getEmail().equals(req.email()) && userRepository.existsByEmail(req.email()))
+            throw new GeneralException(UserErrorStatus.USER_EMAIL_CONFLICT);
+
+        selectedUser.update(req.name(), req.email());
+        userRepository.save(selectedUser);
     }
 }

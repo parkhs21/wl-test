@@ -31,14 +31,16 @@ public class UserController implements UserControllerDocs {
     }
 
     @GetMapping("")
-    public ApiPayload<UserGetRes> getUser(@RequestParam("id") Long id) {
-        User selectedUser = userQueryService.getUser(id);
+    public ApiPayload<UserGetRes> getUser(@RequestParam("user_id") Long userId) {
+        User selectedUser = userQueryService.getUser(userId);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, UserMapper.toUserGetRes(selectedUser));
     }
 
     @PutMapping("")
-    public ApiPayload<?> updateUser(@RequestParam("id") Long id,
+    public ApiPayload<?> updateUser(@RequestParam("user_id") Long userId,
                                     @Valid @RequestBody UserUpdateReq req) {
+        User selectedUser = userQueryService.getUser(userId);
+        userCommandService.updateUser(selectedUser, req);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 
