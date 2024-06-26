@@ -4,7 +4,9 @@ import com.example.demo.domain.board.controller.docs.BoardControllerDocs;
 import com.example.demo.domain.board.dto.request.BoardCreateReq;
 import com.example.demo.domain.board.dto.request.BoardUpdateReq;
 import com.example.demo.domain.board.dto.response.BoardGetRes;
+import com.example.demo.domain.board.entity.Board;
 import com.example.demo.domain.board.service.BoardCommandService;
+import com.example.demo.domain.board.service.BoardMapper;
 import com.example.demo.domain.board.service.BoardQueryService;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.service.UserQueryService;
@@ -35,7 +37,8 @@ public class BoardController implements BoardControllerDocs {
 
     @GetMapping("/{board_id}")
     public ApiPayload<BoardGetRes> getBoard(@PathVariable("board_id") Long boardId) {
-        return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
+        Board selectedBoard = boardQueryService.getBoard(boardId);
+        return ApiPayload.onSuccess(CommonSuccessStatus.OK, BoardMapper.toBoardGetRes(selectedBoard));
     }
 
     @PutMapping("/{board_id}")

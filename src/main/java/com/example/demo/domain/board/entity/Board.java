@@ -27,7 +27,7 @@ public class Board extends BaseEntity {
     @Column(length = 1000, nullable = false)
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "writer_id", nullable = false)
     private User writer;
 
