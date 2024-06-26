@@ -4,7 +4,10 @@ import com.example.demo.domain.user.controller.docs.UserControllerDocs;
 import com.example.demo.domain.user.dto.request.UserCreateReq;
 import com.example.demo.domain.user.dto.request.UserUpdateReq;
 import com.example.demo.domain.user.dto.response.UserGetRes;
+import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.service.UserCommandService;
+import com.example.demo.domain.user.service.UserMapper;
+import com.example.demo.domain.user.service.UserQueryService;
 import com.example.demo.global.payload.ApiPayload;
 import com.example.demo.global.payload.CommonSuccessStatus;
 import jakarta.validation.Valid;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/user")
 public class UserController implements UserControllerDocs {
 
+    private final UserQueryService userQueryService;
     private final UserCommandService userCommandService;
 
     @PostMapping("")
@@ -28,7 +32,8 @@ public class UserController implements UserControllerDocs {
 
     @GetMapping("")
     public ApiPayload<UserGetRes> getUser(@RequestParam("id") Long id) {
-        return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
+        User selectedUser = userQueryService.getUser(id);
+        return ApiPayload.onSuccess(CommonSuccessStatus.OK, UserMapper.toUserGetRes(selectedUser));
     }
 
     @PutMapping("")
