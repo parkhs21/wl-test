@@ -11,7 +11,7 @@ public record BoardGetRes(
         String title,
         String content,
         UserGetRes writer,
-        Long likeCount,
+        Integer likeCount,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
