@@ -52,7 +52,9 @@ public class UserController implements UserControllerDocs {
     }
 
     @DeleteMapping("/hard-delete")
-    public ApiPayload<?> hardDeleteUser(@RequestParam("id") Long id) {
+    public ApiPayload<?> hardDeleteUser(@RequestParam("user_id") Long userId) {
+        User selectedUser = userQueryService.getInactiveUser(userId);
+        userCommandService.hardDeleteUser(selectedUser);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 }

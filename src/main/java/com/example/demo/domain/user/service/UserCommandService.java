@@ -8,4 +8,5 @@ public interface UserCommandService {
     void joinUser(UserCreateReq req);
     void updateUser(User selectedUser, UserUpdateReq req);
     void deleteUser(User selectedUser);
+    void hardDeleteUser(User selectedUser);
 }

@@ -46,4 +46,9 @@ public class UserCommandServiceImpl implements UserCommandService {
         userRepository.save(selectedUser);
     }
 
+    @Override
+    @Transactional
+    public void hardDeleteUser(User selectedUser) {
+        userRepository.delete(selectedUser);
+    }
 }

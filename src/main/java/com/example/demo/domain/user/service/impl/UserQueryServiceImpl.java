@@ -22,4 +22,15 @@ public class UserQueryServiceImpl implements UserQueryService {
         return userRepository.findByIdAndStatus(userId, UserStatus.ACTIVE)
                 .orElseThrow(() -> new GeneralException(UserErrorStatus.USER_NOT_FOUND));
     }
+
+    @Override
+    public User getInactiveUser(Long userId) {
+        User selectedUser = userRepository.findById(userId)
+                .orElseThrow(() -> new GeneralException(UserErrorStatus.USER_NOT_FOUND));
+
+        if (selectedUser.getStatus().equals(UserStatus.ACTIVE))
+            throw new GeneralException(UserErrorStatus.USER_NOT_INACTIVE);
+
+        return selectedUser;
+    }
 }
