@@ -22,6 +22,7 @@ public class CommentCommandServiceImpl implements CommentCommandService {
     @Transactional
     public void createComment(Board selectedBoard, User writer, CommentCreateReq req) {
         Comment newComment = CommentMapper.toComment(selectedBoard, writer, req);
+        selectedBoard.addComment(newComment);
         commentRepository.save(newComment);
     }
 }

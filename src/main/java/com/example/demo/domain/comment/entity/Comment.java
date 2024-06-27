@@ -33,6 +33,10 @@ public class Comment extends BaseEntity {
     private Board board;
 
     @Builder.Default
+    @Column(nullable = false)
+    private Integer likeCount = 0;
+
+    @Builder.Default
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
     private List<CommentLike> likes = new ArrayList<>();
 }
