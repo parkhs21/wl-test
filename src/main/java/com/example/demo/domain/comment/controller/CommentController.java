@@ -50,6 +50,8 @@ public class CommentController implements CommentControllerDocs {
     public ApiPayload<?> updateComment(@PathVariable("comment_id") Long commentId,
                                        @RequestParam("user_id") Long userId,
                                        @Valid @RequestBody CommentUpdateReq req) {
+        Comment selectedComment = commentQueryService.getComment(commentId);
+        commentCommandService.updateComment(selectedComment, userId, req);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 
