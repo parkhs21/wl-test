@@ -58,6 +58,8 @@ public class CommentController implements CommentControllerDocs {
     @DeleteMapping("/{comment_id}")
     public ApiPayload<?> deleteComment(@PathVariable("comment_id") Long commentId,
                                        @RequestParam("user_id") Long userId) {
+        Comment selectedComment = commentQueryService.getComment(commentId);
+        commentCommandService.deleteComment(selectedComment, userId);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 

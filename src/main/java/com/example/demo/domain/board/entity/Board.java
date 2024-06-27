@@ -31,7 +31,7 @@ public class Board extends BaseEntity {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "writer_id", nullable = false)
+    @JoinColumn(name = "writer_id")
     private User writer;
 
     @Builder.Default

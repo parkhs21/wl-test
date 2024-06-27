@@ -1,5 +1,6 @@
 package com.example.demo.domain.comment.service.impl;
 
+import com.example.demo.domain.board.controller.BoardErrorStatus;
 import com.example.demo.domain.board.entity.Board;
 import com.example.demo.domain.comment.controller.CommentErrorStatus;
 import com.example.demo.domain.comment.dto.request.CommentCreateReq;
@@ -40,6 +41,14 @@ public class CommentCommandServiceImpl implements CommentCommandService {
 
         selectedComment.update(req.content());
         commentRepository.save(selectedComment);
+    }
+
+    @Override
+    public void deleteComment(Comment selectedComment, Long userId) {
+        if (!selectedComment.getWriter().getId().equals(userId))
+            throw new GeneralException(BoardErrorStatus.BOARD_UNAUTHORIZED);
+
+        commentRepository.delete(selectedComment);
     }
 
     @Override
