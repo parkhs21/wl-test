@@ -12,8 +12,11 @@ import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.service.UserQueryService;
 import com.example.demo.global.payload.ApiPayload;
 import com.example.demo.global.payload.CommonSuccessStatus;
+import com.example.demo.global.payload.PagePayload;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +42,14 @@ public class BoardController implements BoardControllerDocs {
     public ApiPayload<BoardGetRes> getBoard(@PathVariable("board_id") Long boardId) {
         Board selectedBoard = boardQueryService.getBoard(boardId);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, BoardMapper.toBoardGetRes(selectedBoard));
+    }
+
+    @GetMapping("")
+    public PagePayload<BoardGetRes> getBoards(@RequestParam(value = "page", defaultValue = "0") int page,
+                                   @RequestParam(value = "size", defaultValue = "10") int size) {
+        Pageable pageable = Pageable.ofSize(size).withPage(page);
+        Page<Board> boards = boardQueryService.getBoards(pageable);
+        return PagePayload.onSuccess(CommonSuccessStatus.OK, BoardMapper.toBoardsGetRes(boards));
     }
 
     @PutMapping("/{board_id}")

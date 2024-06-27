@@ -6,6 +6,7 @@ import com.example.demo.domain.board.entity.Board;
 import com.example.demo.domain.comment.service.CommentMapper;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.service.UserMapper;
+import org.springframework.data.domain.Page;
 
 public class BoardMapper {
     public static Board toBoard(User writer, BoardCreateReq req) {
@@ -27,5 +28,9 @@ public class BoardMapper {
                 .createdAt(board.getCreatedAt())
                 .updatedAt(board.getUpdatedAt())
                 .build();
+    }
+
+    public static Page<BoardGetRes> toBoardsGetRes(Page<Board> boards) {
+        return boards.map(BoardMapper::toBoardGetRes);
     }
 }

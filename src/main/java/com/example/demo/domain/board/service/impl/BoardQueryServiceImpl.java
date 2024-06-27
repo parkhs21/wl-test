@@ -6,6 +6,8 @@ import com.example.demo.domain.board.repository.BoardRepository;
 import com.example.demo.domain.board.service.BoardQueryService;
 import com.example.demo.global.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,5 +22,10 @@ public class BoardQueryServiceImpl implements BoardQueryService {
     public Board getBoard(Long boardId) {
         return boardRepository.findById(boardId)
                 .orElseThrow(() -> new GeneralException(BoardErrorStatus.BOARD_NOT_FOUND));
+    }
+
+    @Override
+    public Page<Board> getBoards(Pageable pageable) {
+        return boardRepository.findAll(pageable);
     }
 }
