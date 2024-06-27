@@ -2,6 +2,8 @@ package com.example.demo.domain.comment.service.impl;
 
 import com.example.demo.domain.comment.controller.CommentErrorStatus;
 import com.example.demo.domain.comment.entity.Comment;
+import com.example.demo.domain.comment.entity.CommentLike;
+import com.example.demo.domain.comment.repository.CommentLikeRepository;
 import com.example.demo.domain.comment.repository.CommentRepository;
 import com.example.demo.domain.comment.service.CommentQueryService;
 import com.example.demo.global.exception.GeneralException;

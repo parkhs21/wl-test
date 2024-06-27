@@ -64,12 +64,18 @@ public class CommentController implements CommentControllerDocs {
     @PostMapping("/{comment_id}/like")
     public ApiPayload<?> likeComment(@PathVariable("comment_id") Long commentId,
                                      @RequestParam("user_id") Long userId) {
+        Comment selectedComment = commentQueryService.getComment(commentId);
+        User selectedUser = userQueryService.getUser(userId);
+        commentCommandService.likeComment(selectedComment, selectedUser);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 
     @DeleteMapping("/{comment_id}/like")
     public ApiPayload<?> unlikeComment(@PathVariable("comment_id") Long commentId,
                                        @RequestParam("user_id") Long userId) {
+        Comment selectedComment = commentQueryService.getComment(commentId);
+        User selectedUser = userQueryService.getUser(userId);
+        commentCommandService.unlikeComment(selectedComment, selectedUser);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 }

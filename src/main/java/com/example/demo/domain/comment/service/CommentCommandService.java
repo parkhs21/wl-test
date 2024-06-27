@@ -9,4 +9,6 @@ import com.example.demo.domain.user.entity.User;
 public interface CommentCommandService {
     void createComment(Board selectedBoard, User writer, CommentCreateReq req);
     void updateComment(Comment selectedComment, Long writerId, CommentUpdateReq req);
+    void likeComment(Comment selectedComment, User selectedUser);
+    void unlikeComment(Comment selectedComment, User selectedUser);
 }
