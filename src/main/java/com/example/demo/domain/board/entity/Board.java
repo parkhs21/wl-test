@@ -26,11 +26,12 @@ public class Board extends BaseEntity {
     @Column(length = 100, nullable = false)
     private String title;
 
+    @Lob
     @Column(length = 1000, nullable = false)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "writer_id", nullable = false)
+    @JoinColumn(name = "writer_id")
     private User writer;
 
     @Builder.Default
@@ -45,7 +46,7 @@ public class Board extends BaseEntity {
     private Set<User> likes = new HashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = {CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.DETACH})
     private List<Comment> comments = new ArrayList<>();
 
     public void update(String title, String content) {
@@ -61,5 +62,9 @@ public class Board extends BaseEntity {
     public void unlike(User user) {
         this.likeCount -= 1;
         this.likes.remove(user);
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 }

@@ -3,6 +3,7 @@ package com.example.demo.domain.board.service;
 import com.example.demo.domain.board.dto.request.BoardCreateReq;
 import com.example.demo.domain.board.dto.response.BoardGetRes;
 import com.example.demo.domain.board.entity.Board;
+import com.example.demo.domain.comment.service.CommentMapper;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.service.UserMapper;
 
@@ -22,6 +23,7 @@ public class BoardMapper {
                 .content(board.getContent())
                 .writer(UserMapper.toUserGetRes(board.getWriter()))
                 .likeCount(board.getLikeCount())
+                .comments(CommentMapper.toCommentGetResList(board.getComments()))
                 .createdAt(board.getCreatedAt())
                 .updatedAt(board.getUpdatedAt())
                 .build();
