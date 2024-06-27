@@ -7,7 +7,9 @@ import com.example.demo.domain.comment.controller.docs.CommentControllerDocs;
 import com.example.demo.domain.comment.dto.request.CommentCreateReq;
 import com.example.demo.domain.comment.dto.request.CommentUpdateReq;
 import com.example.demo.domain.comment.dto.response.CommentGetRes;
+import com.example.demo.domain.comment.entity.Comment;
 import com.example.demo.domain.comment.service.CommentCommandService;
+import com.example.demo.domain.comment.service.CommentMapper;
 import com.example.demo.domain.comment.service.CommentQueryService;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.service.UserQueryService;
@@ -40,7 +42,8 @@ public class CommentController implements CommentControllerDocs {
 
     @GetMapping("/{comment_id}")
     public ApiPayload<CommentGetRes> getComment(@PathVariable("comment_id") Long commentId) {
-        return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
+        Comment selectedComment = commentQueryService.getComment(commentId);
+        return ApiPayload.onSuccess(CommonSuccessStatus.OK, CommentMapper.toCommentGetRes(selectedComment));
     }
 
     @PutMapping("/{comment_id}")
