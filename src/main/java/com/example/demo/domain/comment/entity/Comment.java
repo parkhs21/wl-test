@@ -24,7 +24,7 @@ public class Comment extends BaseEntity {
     @Column(length = 100, nullable = false)
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "writer_id")
     private User writer;
 
@@ -37,7 +37,7 @@ public class Comment extends BaseEntity {
     private Integer likeCount = 0;
 
     @Builder.Default
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "comment", cascade = {CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.DETACH})
     private List<CommentLike> likes = new ArrayList<>();
 
     public void update(String content) {
