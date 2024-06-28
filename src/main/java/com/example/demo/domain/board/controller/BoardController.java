@@ -31,7 +31,7 @@ public class BoardController implements BoardControllerDocs {
     private final BoardCommandService boardCommandService;
 
     @PostMapping("")
-    public ApiPayload<Void> createBoard(@RequestParam("user_id") long userId,
+    public ApiPayload<Void> createBoard(@RequestParam("userId") long userId,
                                         @Valid @RequestBody BoardCreateReq req) {
         User writer = userQueryService.getUser(userId);
         boardCommandService.createBoard(writer, req);
@@ -54,7 +54,7 @@ public class BoardController implements BoardControllerDocs {
 
     @PutMapping("/{boardId}")
     public ApiPayload<Void> updateBoard(@PathVariable long boardId,
-                                        @RequestParam("user_id") long userId,
+                                        @RequestParam("userId") long userId,
                                         @Valid @RequestBody BoardUpdateReq req) {
         Board selectedBoard = boardQueryService.getBoard(boardId);
         boardCommandService.updateBoard(selectedBoard, userId, req);
@@ -71,7 +71,7 @@ public class BoardController implements BoardControllerDocs {
 
     @PostMapping("/{boardId}/like")
     public ApiPayload<Void> likeBoard(@PathVariable long boardId,
-                                      @RequestParam("user_id") long userId) {
+                                      @RequestParam("userId") long userId) {
         Board selectedBoard = boardQueryService.getBoard(boardId);
         User selectedUser = userQueryService.getUser(userId);
         boardCommandService.likeBoard(selectedBoard, selectedUser);
@@ -80,7 +80,7 @@ public class BoardController implements BoardControllerDocs {
 
     @DeleteMapping("/{boardId}/like")
     public ApiPayload<Void> unlikeBoard(@PathVariable long boardId,
-                                        @RequestParam("user_id") long userId) {
+                                        @RequestParam("userId") long userId) {
         Board selectedBoard = boardQueryService.getBoard(boardId);
         User selectedUser = userQueryService.getUser(userId);
         boardCommandService.unlikeBoard(selectedBoard, selectedUser);
