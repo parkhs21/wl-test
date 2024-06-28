@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/board")
+@RequestMapping("/api/v1/boards")
 public class BoardController implements BoardControllerDocs {
 
     private final UserQueryService userQueryService;
@@ -31,56 +31,56 @@ public class BoardController implements BoardControllerDocs {
     private final BoardCommandService boardCommandService;
 
     @PostMapping("")
-    public ApiPayload<?> createBoard(@RequestParam("user_id") Long userId,
-                                     @Valid @RequestBody BoardCreateReq req) {
+    public ApiPayload<Void> createBoard(@RequestParam("user_id") long userId,
+                                        @Valid @RequestBody BoardCreateReq req) {
         User writer = userQueryService.getUser(userId);
         boardCommandService.createBoard(writer, req);
         return ApiPayload.onSuccess(CommonSuccessStatus.CREATED, null);
     }
 
-    @GetMapping("/{board_id}")
-    public ApiPayload<BoardGetRes> getBoard(@PathVariable("board_id") Long boardId) {
+    @GetMapping("/{boardId}")
+    public ApiPayload<BoardGetRes> getBoard(@PathVariable long boardId) {
         Board selectedBoard = boardQueryService.getBoard(boardId);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, BoardMapper.toBoardGetRes(selectedBoard));
     }
 
     @GetMapping("")
     public PagePayload<BoardGetRes> getBoards(@RequestParam(value = "page", defaultValue = "0") int page,
-                                   @RequestParam(value = "size", defaultValue = "10") int size) {
+                                              @RequestParam(value = "size", defaultValue = "10") int size) {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
         Page<Board> boards = boardQueryService.getBoards(pageable);
         return PagePayload.onSuccess(CommonSuccessStatus.OK, BoardMapper.toBoardsGetRes(boards));
     }
 
-    @PutMapping("/{board_id}")
-    public ApiPayload<?> updateBoard(@PathVariable("board_id") Long boardId,
-                                     @RequestParam("user_id") Long userId,
-                                     @Valid @RequestBody BoardUpdateReq req) {
+    @PutMapping("/{boardId}")
+    public ApiPayload<Void> updateBoard(@PathVariable long boardId,
+                                        @RequestParam("user_id") long userId,
+                                        @Valid @RequestBody BoardUpdateReq req) {
         Board selectedBoard = boardQueryService.getBoard(boardId);
         boardCommandService.updateBoard(selectedBoard, userId, req);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 
-    @DeleteMapping("/{board_id}")
-    public ApiPayload<?> deleteBoard(@PathVariable("board_id") Long boardId,
-                                     @RequestParam("user_id") Long userId) {
+    @DeleteMapping("/{boardId}")
+    public ApiPayload<Void> deleteBoard(@PathVariable long boardId,
+                                        @RequestParam("user_id") long userId) {
         Board selectedBoard = boardQueryService.getBoard(boardId);
         boardCommandService.deleteBoard(selectedBoard, userId);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 
-    @PostMapping("/{board_id}/like")
-    public ApiPayload<?> likeBoard(@PathVariable("board_id") Long boardId,
-                                   @RequestParam("user_id") Long userId) {
+    @PostMapping("/{boardId}/like")
+    public ApiPayload<Void> likeBoard(@PathVariable long boardId,
+                                      @RequestParam("user_id") long userId) {
         Board selectedBoard = boardQueryService.getBoard(boardId);
         User selectedUser = userQueryService.getUser(userId);
         boardCommandService.likeBoard(selectedBoard, selectedUser);
         return ApiPayload.onSuccess(CommonSuccessStatus.CREATED, null);
     }
 
-    @DeleteMapping("/{board_id}/like")
-    public ApiPayload<?> unlikeBoard(@PathVariable("board_id") Long boardId,
-                                     @RequestParam("user_id") Long userId) {
+    @DeleteMapping("/{boardId}/like")
+    public ApiPayload<Void> unlikeBoard(@PathVariable long boardId,
+                                        @RequestParam("user_id") long userId) {
         Board selectedBoard = boardQueryService.getBoard(boardId);
         User selectedUser = userQueryService.getUser(userId);
         boardCommandService.unlikeBoard(selectedBoard, selectedUser);
