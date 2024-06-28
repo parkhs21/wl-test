@@ -19,8 +19,8 @@ public class CommentQueryServiceImpl implements CommentQueryService {
     private final CommentRepository commentRepository;
 
     @Override
-    public Comment getComment(Long commentId) {
-        return commentRepository.findById(commentId)
+    public Comment getComment(long boardId, long commentId) {
+        return commentRepository.findByIdAndBoardId(commentId, boardId)
                 .orElseThrow(() -> new GeneralException(CommentErrorStatus.COMMENT_NOT_FOUND));
     }
 }

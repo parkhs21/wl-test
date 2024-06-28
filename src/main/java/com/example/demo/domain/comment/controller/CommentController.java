@@ -43,7 +43,7 @@ public class CommentController implements CommentControllerDocs {
     @GetMapping("/{commentId}")
     public ApiPayload<CommentGetRes> getComment(@PathVariable long boardId,
                                                 @PathVariable long commentId) {
-        Comment selectedComment = commentQueryService.getComment(commentId);
+        Comment selectedComment = commentQueryService.getComment(boardId, commentId);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, CommentMapper.toCommentGetRes(selectedComment));
     }
 
@@ -52,7 +52,7 @@ public class CommentController implements CommentControllerDocs {
                                           @PathVariable long commentId,
                                           @RequestParam("userId") long userId,
                                           @Valid @RequestBody CommentUpdateReq req) {
-        Comment selectedComment = commentQueryService.getComment(commentId);
+        Comment selectedComment = commentQueryService.getComment(boardId, commentId);
         commentCommandService.updateComment(selectedComment, userId, req);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
@@ -61,7 +61,7 @@ public class CommentController implements CommentControllerDocs {
     public ApiPayload<Void> deleteComment(@PathVariable long boardId,
                                           @PathVariable long commentId,
                                           @RequestParam("userId") long userId) {
-        Comment selectedComment = commentQueryService.getComment(commentId);
+        Comment selectedComment = commentQueryService.getComment(boardId, commentId);
         commentCommandService.deleteComment(selectedComment, userId);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
@@ -70,7 +70,7 @@ public class CommentController implements CommentControllerDocs {
     public ApiPayload<Void> likeComment(@PathVariable long boardId,
                                         @PathVariable long commentId,
                                         @RequestParam("userId") long userId) {
-        Comment selectedComment = commentQueryService.getComment(commentId);
+        Comment selectedComment = commentQueryService.getComment(boardId, commentId);
         User selectedUser = userQueryService.getUser(userId);
         commentCommandService.likeComment(selectedComment, selectedUser);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
@@ -80,7 +80,7 @@ public class CommentController implements CommentControllerDocs {
     public ApiPayload<Void> unlikeComment(@PathVariable long boardId,
                                           @PathVariable long commentId,
                                           @RequestParam("userId") long userId) {
-        Comment selectedComment = commentQueryService.getComment(commentId);
+        Comment selectedComment = commentQueryService.getComment(boardId, commentId);
         User selectedUser = userQueryService.getUser(userId);
         commentCommandService.unlikeComment(selectedComment, selectedUser);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
