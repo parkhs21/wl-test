@@ -1,12 +1,9 @@
 package com.example.demo.domain.user.controller;
 
-import com.example.demo.domain.user.controller.docs.UserControllerDocs;
-import com.example.demo.domain.user.dto.request.UserCreateReq;
-import com.example.demo.domain.user.dto.request.UserUpdateReq;
-import com.example.demo.domain.user.dto.response.UserGetRes;
+import com.example.demo.domain.user.dto.request.CreateUser;
+import com.example.demo.domain.user.dto.request.UpdateUser;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.service.UserCommandService;
-import com.example.demo.domain.user.service.UserMapper;
 import com.example.demo.domain.user.service.UserQueryService;
 import com.example.demo.global.payload.ApiPayload;
 import com.example.demo.global.payload.CommonSuccessStatus;
@@ -19,42 +16,36 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
-public class UserController implements UserControllerDocs {
+public class UserController {
 
     private final UserQueryService userQueryService;
     private final UserCommandService userCommandService;
 
     @PostMapping("")
-    public ApiPayload<?> createUser(@Valid @RequestBody UserCreateReq req) {
-        userCommandService.joinUser(req);
+    public ApiPayload<?> createUser(@Valid @RequestBody CreateUser createUser) {
+        userCommandService.joinUser(createUser);
         return ApiPayload.onSuccess(CommonSuccessStatus.CREATED, null);
-    }
-
-    @GetMapping("")
-    public ApiPayload<UserGetRes> getUser(@RequestParam("user_id") Long userId) {
-        User selectedUser = userQueryService.getUser(userId);
-        return ApiPayload.onSuccess(CommonSuccessStatus.OK, UserMapper.toUserGetRes(selectedUser));
     }
 
     @PutMapping("")
     public ApiPayload<?> updateUser(@RequestParam("user_id") Long userId,
-                                    @Valid @RequestBody UserUpdateReq req) {
-        User selectedUser = userQueryService.getUser(userId);
-        userCommandService.updateUser(selectedUser, req);
+                                    @Valid @RequestBody UpdateUser updateUser) {
+        User user = userQueryService.getUser(userId);
+        userCommandService.updateUser(user, updateUser);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 
     @DeleteMapping("")
     public ApiPayload<?> deleteUser(@RequestParam("user_id") Long userId) {
-        User selectedUser = userQueryService.getUser(userId);
-        userCommandService.deleteUser(selectedUser);
+        User user = userQueryService.getUser(userId);
+        userCommandService.deleteUser(user);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 
     @DeleteMapping("/hard-delete")
     public ApiPayload<?> hardDeleteUser(@RequestParam("user_id") Long userId) {
-        User selectedUser = userQueryService.getInactiveUser(userId);
-        userCommandService.hardDeleteUser(selectedUser);
+        User user = userQueryService.getInactiveUser(userId);
+        userCommandService.hardDeleteUser(user);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 }

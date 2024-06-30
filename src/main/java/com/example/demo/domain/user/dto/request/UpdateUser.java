@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record UserUpdateReq(
+public record UpdateUser(
     @NotBlank @Size(min = 3, max = 20)
     String name,
     @Email @Size(max = 50)

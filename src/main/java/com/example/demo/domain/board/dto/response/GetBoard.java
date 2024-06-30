@@ -1,20 +1,18 @@
 package com.example.demo.domain.board.dto.response;
 
-import com.example.demo.domain.comment.dto.response.CommentGetRes;
-import com.example.demo.domain.user.dto.response.UserGetRes;
-import lombok.Builder;
+import com.example.demo.domain.comment.dto.response.GetComment;
+import com.example.demo.domain.user.dto.response.GetUser;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Builder
-public record BoardGetRes(
+public record GetBoard(
         Long id,
         String title,
         String content,
-        UserGetRes writer,
+        GetUser writer,
         Integer likeCount,
-        List<CommentGetRes> comments,
+        List<GetComment> comments,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {

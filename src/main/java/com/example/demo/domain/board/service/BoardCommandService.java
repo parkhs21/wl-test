@@ -1,14 +1,49 @@
 package com.example.demo.domain.board.service;
 
-import com.example.demo.domain.board.dto.request.BoardCreateReq;
-import com.example.demo.domain.board.dto.request.BoardUpdateReq;
+import com.example.demo.domain.board.controller.BoardErrorStatus;
+import com.example.demo.domain.board.dto.request.CreateBoard;
+import com.example.demo.domain.board.dto.request.UpdateBoard;
 import com.example.demo.domain.board.entity.Board;
+import com.example.demo.domain.board.repository.BoardRepository;
 import com.example.demo.domain.user.entity.User;
+import com.example.demo.global.exception.GeneralException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface BoardCommandService {
-    void createBoard(User writer, BoardCreateReq req);
-    void updateBoard(Board selectedBoard, Long userId, BoardUpdateReq req);
-    void deleteBoard(Board selectedBoard, Long userId);
-    void likeBoard(Board selectedBoard, User selectedUser);
-    void unlikeBoard(Board selectedBoard, User selectedUser);
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class BoardCommandService {
+
+    private final BoardRepository boardRepository;
+
+    @Transactional
+    public void createBoard(User user, CreateBoard createBoard) {
+        Board board = BoardMapper.toEntity(user, createBoard);
+        boardRepository.save(board);
+    }
+
+    @Transactional
+    public void updateBoard(Board board, Long userId, UpdateBoard updateBoard) {
+        if (!board.getWriter().getId().equals(userId))
+            throw new GeneralException(BoardErrorStatus.BOARD_UNAUTHORIZED);
+
+        board.update(updateBoard);
+        boardRepository.save(board);
+    }
+
+    @Transactional
+    public void deleteBoard(Board board, Long userId) {
+        if (!board.getWriter().getId().equals(userId))
+            throw new GeneralException(BoardErrorStatus.BOARD_UNAUTHORIZED);
+
+        boardRepository.delete(board);
+    }
+
+    @Transactional
+    public void likeBoard(Board board, User user) {
+        board.like(user);
+        boardRepository.save(board);
+    }
 }
