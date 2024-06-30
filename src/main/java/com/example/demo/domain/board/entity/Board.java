@@ -33,9 +33,6 @@ public class Board extends BaseEntity {
     @JoinColumn(name = "writer_id")
     private User writer;
 
-    @Column(nullable = false)
-    private Integer likeCount = 0;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "board_like",
             joinColumns = @JoinColumn(name = "board_id"),
@@ -58,13 +55,11 @@ public class Board extends BaseEntity {
     }
 
     public void like(User user) {
-        this.likeCount += 1;
-        this.likes.add(user);
-    }
-
-    public void unlike(User user) {
-        this.likeCount -= 1;
-        this.likes.remove(user);
+        if (this.likes.contains(user)) {
+            this.likes.remove(user);
+        } else {
+            this.likes.add(user);
+        }
     }
 
     public void addComment(Comment comment) {

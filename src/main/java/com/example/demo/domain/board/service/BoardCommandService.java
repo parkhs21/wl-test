@@ -43,19 +43,7 @@ public class BoardCommandService {
 
     @Transactional
     public void likeBoard(Board board, User user) {
-        if (board.getLikes().contains(user))
-            throw new GeneralException(BoardErrorStatus.BOARD_LIKE_CONFLICT);
-
         board.like(user);
-        boardRepository.save(board);
-    }
-
-    @Transactional
-    public void unlikeBoard(Board board, User user) {
-        if (!board.getLikes().contains(user))
-            throw new GeneralException(BoardErrorStatus.BOARD_LIKE_NOT_FOUND);
-
-        board.unlike(user);
         boardRepository.save(board);
     }
 }

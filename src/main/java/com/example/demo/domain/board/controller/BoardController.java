@@ -57,13 +57,4 @@ public class BoardController {
         boardCommandService.likeBoard(board, user);
         return ApiPayload.onSuccess(CommonSuccessStatus.CREATED, null);
     }
-
-    @DeleteMapping("/{boardId}/like")
-    public ApiPayload<Void> unlikeBoard(@PathVariable long boardId,
-                                        @RequestParam("userId") long userId) {
-        Board board = boardQueryService.getBoard(boardId);
-        User user = userQueryService.getUser(userId);
-        boardCommandService.unlikeBoard(board, user);
-        return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
-    }
 }
