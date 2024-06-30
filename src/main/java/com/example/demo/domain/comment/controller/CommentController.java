@@ -2,13 +2,10 @@ package com.example.demo.domain.comment.controller;
 
 import com.example.demo.domain.board.entity.Board;
 import com.example.demo.domain.board.service.BoardQueryService;
-import com.example.demo.domain.comment.controller.docs.CommentControllerDocs;
 import com.example.demo.domain.comment.dto.request.CreateComment;
 import com.example.demo.domain.comment.dto.request.UpdateComment;
-import com.example.demo.domain.comment.dto.response.GetComment;
 import com.example.demo.domain.comment.entity.Comment;
 import com.example.demo.domain.comment.service.CommentCommandService;
-import com.example.demo.domain.comment.service.CommentMapper;
 import com.example.demo.domain.comment.service.CommentQueryService;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.service.UserQueryService;
@@ -23,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/boards/{boardId}/comments")
-public class CommentController implements CommentControllerDocs {
+public class CommentController {
 
     private final UserQueryService userQueryService;
     private final BoardQueryService boardQueryService;
@@ -38,13 +35,6 @@ public class CommentController implements CommentControllerDocs {
         User writer = userQueryService.getUser(userId);
         commentCommandService.createComment(board, writer, createComment);
         return ApiPayload.onSuccess(CommonSuccessStatus.CREATED, null);
-    }
-
-    @GetMapping("/{commentId}")
-    public ApiPayload<GetComment> getComment(@PathVariable long boardId,
-                                             @PathVariable long commentId) {
-        Comment comment = commentQueryService.getComment(boardId, commentId);
-        return ApiPayload.onSuccess(CommonSuccessStatus.OK, CommentMapper.toCommentGetRes(comment));
     }
 
     @PutMapping("/{commentId}")

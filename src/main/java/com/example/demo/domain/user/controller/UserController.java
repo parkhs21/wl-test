@@ -1,12 +1,9 @@
 package com.example.demo.domain.user.controller;
 
-import com.example.demo.domain.user.controller.docs.UserControllerDocs;
 import com.example.demo.domain.user.dto.request.CreateUser;
 import com.example.demo.domain.user.dto.request.UpdateUser;
-import com.example.demo.domain.user.dto.response.GetUser;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.service.UserCommandService;
-import com.example.demo.domain.user.service.UserMapper;
 import com.example.demo.domain.user.service.UserQueryService;
 import com.example.demo.global.payload.ApiPayload;
 import com.example.demo.global.payload.CommonSuccessStatus;
@@ -19,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
-public class UserController implements UserControllerDocs {
+public class UserController {
 
     private final UserQueryService userQueryService;
     private final UserCommandService userCommandService;
@@ -28,12 +25,6 @@ public class UserController implements UserControllerDocs {
     public ApiPayload<?> createUser(@Valid @RequestBody CreateUser createUser) {
         userCommandService.joinUser(createUser);
         return ApiPayload.onSuccess(CommonSuccessStatus.CREATED, null);
-    }
-
-    @GetMapping("")
-    public ApiPayload<GetUser> getUser(@RequestParam("user_id") Long userId) {
-        User user = userQueryService.getUser(userId);
-        return ApiPayload.onSuccess(CommonSuccessStatus.OK, UserMapper.toUserGetRes(user));
     }
 
     @PutMapping("")
