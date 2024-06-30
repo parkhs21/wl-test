@@ -1,8 +1,8 @@
 package com.example.demo.domain.comment.service;
 
 import com.example.demo.domain.board.entity.Board;
-import com.example.demo.domain.comment.dto.request.CommentCreateReq;
-import com.example.demo.domain.comment.dto.response.CommentGetRes;
+import com.example.demo.domain.comment.dto.request.CreateComment;
+import com.example.demo.domain.comment.dto.response.GetComment;
 import com.example.demo.domain.comment.entity.Comment;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.service.UserMapper;
@@ -12,16 +12,16 @@ import java.util.stream.Collectors;
 
 public class CommentMapper {
 
-    public static Comment toComment(Board selectedBoard, User writer, CommentCreateReq req) {
+    public static Comment toComment(Board board, User writer, CreateComment createComment) {
         return Comment.builder()
-                .board(selectedBoard)
+                .board(board)
                 .writer(writer)
-                .content(req.content())
+                .content(createComment.content())
                 .build();
     }
 
-    public static CommentGetRes toCommentGetRes(Comment comment) {
-        return CommentGetRes.builder()
+    public static GetComment toCommentGetRes(Comment comment) {
+        return GetComment.builder()
                 .id(comment.getId())
                 .boardId(comment.getBoard().getId())
                 .content(comment.getContent())
@@ -32,7 +32,7 @@ public class CommentMapper {
                 .build();
     }
 
-    public static List<CommentGetRes> toCommentGetResList(List<Comment> comments) {
+    public static List<GetComment> toCommentGetResList(List<Comment> comments) {
         return comments.stream()
                 .map(CommentMapper::toCommentGetRes)
                 .collect(Collectors.toList());

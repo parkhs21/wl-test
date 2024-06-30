@@ -6,7 +6,7 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public record CommentGetRes(
+public record GetComment(
         Long id,
         Long boardId,
         String content,

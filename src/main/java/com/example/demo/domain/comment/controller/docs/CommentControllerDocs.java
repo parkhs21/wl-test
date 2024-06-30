@@ -1,8 +1,8 @@
 package com.example.demo.domain.comment.controller.docs;
 
-import com.example.demo.domain.comment.dto.request.CommentCreateReq;
-import com.example.demo.domain.comment.dto.request.CommentUpdateReq;
-import com.example.demo.domain.comment.dto.response.CommentGetRes;
+import com.example.demo.domain.comment.dto.request.CreateComment;
+import com.example.demo.domain.comment.dto.request.UpdateComment;
+import com.example.demo.domain.comment.dto.response.GetComment;
 import com.example.demo.global.payload.ApiPayload;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,17 +16,17 @@ public interface CommentControllerDocs {
     @Operation(summary = "댓글 생성", description = "새로운 댓글을 생성합니다.")
     public ApiPayload<?> createComment(@PathVariable long boardId,
                                        @RequestParam long userId,
-                                       @Valid @RequestBody CommentCreateReq req);
+                                       @Valid @RequestBody CreateComment req);
 
     @Operation(summary = "댓글 조회", description = "댓글의 정보를 조회합니다.")
-    public ApiPayload<CommentGetRes> getComment(@PathVariable long boardId,
-                                                @PathVariable long commentId);
+    public ApiPayload<GetComment> getComment(@PathVariable long boardId,
+                                             @PathVariable long commentId);
 
     @Operation(summary = "댓글 수정", description = "댓글의 정보를 수정합니다.")
     public ApiPayload<?> updateComment(@PathVariable long boardId,
                                        @PathVariable long commentId,
                                        @RequestParam("userId") long userId,
-                                       @Valid @RequestBody CommentUpdateReq req);
+                                       @Valid @RequestBody UpdateComment req);
 
     @Operation(summary = "댓글 삭제", description = "댓글을 삭제합니다.")
     public ApiPayload<?> deleteComment(@PathVariable long boardId,

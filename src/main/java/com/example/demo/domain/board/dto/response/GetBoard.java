@@ -1,7 +1,7 @@
 package com.example.demo.domain.board.dto.response;
 
 import com.example.demo.domain.board.entity.Board;
-import com.example.demo.domain.comment.dto.response.CommentGetRes;
+import com.example.demo.domain.comment.dto.response.GetComment;
 import com.example.demo.domain.comment.service.CommentMapper;
 import com.example.demo.domain.user.dto.response.GetUser;
 import com.example.demo.domain.user.service.UserMapper;
@@ -15,7 +15,7 @@ public record GetBoard(
         String content,
         GetUser writer,
         Integer likeCount,
-        List<CommentGetRes> comments,
+        List<GetComment> comments,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
