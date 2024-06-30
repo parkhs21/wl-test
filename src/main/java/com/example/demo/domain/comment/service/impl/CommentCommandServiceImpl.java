@@ -6,8 +6,6 @@ import com.example.demo.domain.comment.controller.CommentErrorStatus;
 import com.example.demo.domain.comment.dto.request.CommentCreateReq;
 import com.example.demo.domain.comment.dto.request.CommentUpdateReq;
 import com.example.demo.domain.comment.entity.Comment;
-import com.example.demo.domain.comment.entity.CommentLike;
-import com.example.demo.domain.comment.repository.CommentLikeRepository;
 import com.example.demo.domain.comment.repository.CommentRepository;
 import com.example.demo.domain.comment.service.CommentCommandService;
 import com.example.demo.domain.comment.service.CommentMapper;
@@ -23,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentCommandServiceImpl implements CommentCommandService {
 
     private final CommentRepository commentRepository;
-    private final CommentLikeRepository commentLikeRepository;
 
     @Override
     @Transactional
@@ -54,21 +51,7 @@ public class CommentCommandServiceImpl implements CommentCommandService {
     @Override
     @Transactional
     public void likeComment(Comment selectedComment, User selectedUser) {
-        if (commentLikeRepository.existsByCommentIdAndUserId(selectedComment.getId(), selectedUser.getId()))
-            throw new GeneralException(CommentErrorStatus.COMMENT_LIKE_CONFLICT);
-
-        CommentLike newCommentLike = CommentMapper.toCommentLike(selectedComment, selectedUser);
-        selectedComment.like(newCommentLike);
-        commentLikeRepository.save(newCommentLike);
-    }
-
-    @Override
-    @Transactional
-    public void unlikeComment(Comment selectedComment, User selectedUser) {
-        CommentLike selectedCommentLike = commentLikeRepository.findByCommentIdAndUserId(selectedComment.getId(), selectedUser.getId())
-                .orElseThrow(() -> new GeneralException(CommentErrorStatus.COMMENT_LIKE_NOT_FOUND));
-
-        selectedComment.unlike(selectedCommentLike);
-        commentLikeRepository.delete(selectedCommentLike);
+        selectedComment.like(selectedUser);
+        commentRepository.save(selectedComment);
     }
 }

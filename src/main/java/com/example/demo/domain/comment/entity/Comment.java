@@ -6,8 +6,8 @@ import com.example.demo.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -33,24 +33,27 @@ public class Comment extends BaseEntity {
     private Board board;
 
     @Builder.Default
-    @Column(nullable = false)
-    private Integer likeCount = 0;
-
-    @Builder.Default
-    @OneToMany(mappedBy = "comment", cascade = {CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.DETACH})
-    private List<CommentLike> likes = new ArrayList<>();
+    @OneToMany(mappedBy = "id.comment", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    private Set<CommentLike> likes = new HashSet<>();
 
     public void update(String content) {
         this.content = content;
     }
 
-    public void like(CommentLike commentLike) {
-        this.likeCount += 1;
-        this.likes.add(commentLike);
-    }
+    public void like(User user) {
+        CommentLikeId commentLikeId = CommentLikeId.builder()
+                .comment(this)
+                .user(user)
+                .build();
 
-    public void unlike(CommentLike commentLike) {
-        this.likeCount -= 1;
-        this.likes.remove(commentLike);
+        CommentLike commentLike = CommentLike.builder()
+                .id(commentLikeId)
+                .build();
+
+        if (this.likes.contains(commentLike)) {
+            this.likes.remove(commentLike);
+        } else {
+            this.likes.add(commentLike);
+        }
     }
 }
