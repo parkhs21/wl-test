@@ -1,6 +1,7 @@
 package com.example.demo.domain.comment.entity;
 
 import com.example.demo.domain.board.entity.Board;
+import com.example.demo.domain.comment.dto.request.UpdateComment;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -39,8 +40,8 @@ public class Comment extends BaseEntity {
         this.board = board;
     }
 
-    public void update(String content) {
-        this.content = content;
+    public void update(UpdateComment updateComment) {
+        this.content = updateComment.content();
     }
 
     public void like(User user) {
