@@ -1,11 +1,10 @@
 package com.example.demo.domain.user.service;
 
-import com.example.demo.domain.user.controller.UserErrorStatus;
 import com.example.demo.domain.user.dto.request.CreateUser;
 import com.example.demo.domain.user.dto.request.UpdateUser;
 import com.example.demo.domain.user.entity.User;
+import com.example.demo.domain.user.exception.EmailConflictException;
 import com.example.demo.domain.user.repository.UserRepository;
-import com.example.demo.global.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,7 @@ public class UserCommandService {
     @Transactional
     public void joinUser(CreateUser createUser) {
         if (userRepository.existsByEmail(createUser.email()))
-            throw new GeneralException(UserErrorStatus.USER_EMAIL_CONFLICT);
+            throw new EmailConflictException();
 
         User user = UserMapper.toEntity(createUser);
         userRepository.save(user);
@@ -29,7 +28,7 @@ public class UserCommandService {
     @Transactional
     public void updateUser(User user, UpdateUser updateUser) {
         if (!user.getEmail().equals(updateUser.email()) && userRepository.existsByEmail(updateUser.email()))
-            throw new GeneralException(UserErrorStatus.USER_EMAIL_CONFLICT);
+            throw new EmailConflictException();
 
         user.update(updateUser);
         userRepository.save(user);

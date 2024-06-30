@@ -1,9 +1,8 @@
 package com.example.demo.domain.board.service;
 
-import com.example.demo.domain.board.controller.BoardErrorStatus;
 import com.example.demo.domain.board.entity.Board;
+import com.example.demo.domain.board.exception.NotFoundBoardException;
 import com.example.demo.domain.board.repository.BoardRepository;
-import com.example.demo.global.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +16,6 @@ public class BoardQueryService {
 
     public Board getBoard(Long boardId) {
         return boardRepository.findById(boardId)
-                .orElseThrow(() -> new GeneralException(BoardErrorStatus.BOARD_NOT_FOUND));
+                .orElseThrow(NotFoundBoardException::new);
     }
 }

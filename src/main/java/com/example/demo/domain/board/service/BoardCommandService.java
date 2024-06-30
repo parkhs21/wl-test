@@ -1,12 +1,11 @@
 package com.example.demo.domain.board.service;
 
-import com.example.demo.domain.board.controller.BoardErrorStatus;
 import com.example.demo.domain.board.dto.request.CreateBoard;
 import com.example.demo.domain.board.dto.request.UpdateBoard;
 import com.example.demo.domain.board.entity.Board;
 import com.example.demo.domain.board.repository.BoardRepository;
 import com.example.demo.domain.user.entity.User;
-import com.example.demo.global.exception.GeneralException;
+import com.example.demo.domain.user.exception.UnauthorizedUserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +26,7 @@ public class BoardCommandService {
     @Transactional
     public void updateBoard(Board board, Long userId, UpdateBoard updateBoard) {
         if (!board.getWriter().getId().equals(userId))
-            throw new GeneralException(BoardErrorStatus.BOARD_UNAUTHORIZED);
+            throw new UnauthorizedUserException();
 
         board.update(updateBoard);
         boardRepository.save(board);
@@ -36,7 +35,7 @@ public class BoardCommandService {
     @Transactional
     public void deleteBoard(Board board, Long userId) {
         if (!board.getWriter().getId().equals(userId))
-            throw new GeneralException(BoardErrorStatus.BOARD_UNAUTHORIZED);
+            throw new UnauthorizedUserException();
 
         boardRepository.delete(board);
     }
