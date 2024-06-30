@@ -39,22 +39,22 @@ public class UserController implements UserControllerDocs {
     @PutMapping("")
     public ApiPayload<?> updateUser(@RequestParam("user_id") Long userId,
                                     @Valid @RequestBody UserUpdateReq req) {
-        User selectedUser = userQueryService.getUser(userId);
-        userCommandService.updateUser(selectedUser, req);
+        User user = userQueryService.getUser(userId);
+        userCommandService.updateUser(user, req);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 
     @DeleteMapping("")
     public ApiPayload<?> deleteUser(@RequestParam("user_id") Long userId) {
-        User selectedUser = userQueryService.getUser(userId);
-        userCommandService.deleteUser(selectedUser);
+        User user = userQueryService.getUser(userId);
+        userCommandService.deleteUser(user);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 
     @DeleteMapping("/hard-delete")
     public ApiPayload<?> hardDeleteUser(@RequestParam("user_id") Long userId) {
-        User selectedUser = userQueryService.getInactiveUser(userId);
-        userCommandService.hardDeleteUser(selectedUser);
+        User user = userQueryService.getInactiveUser(userId);
+        userCommandService.hardDeleteUser(user);
         return ApiPayload.onSuccess(CommonSuccessStatus.OK, null);
     }
 }

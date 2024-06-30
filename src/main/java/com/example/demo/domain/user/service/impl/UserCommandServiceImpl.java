@@ -25,30 +25,30 @@ public class UserCommandServiceImpl implements UserCommandService {
         if (userRepository.existsByEmail(req.email()))
             throw new GeneralException(UserErrorStatus.USER_EMAIL_CONFLICT);
 
-        User newUser = UserMapper.toUser(req);
-        userRepository.save(newUser);
+        User user = UserMapper.toUser(req);
+        userRepository.save(user);
     }
 
     @Override
     @Transactional
-    public void updateUser(User selectedUser, UserUpdateReq req) {
-        if (!selectedUser.getEmail().equals(req.email()) && userRepository.existsByEmail(req.email()))
+    public void updateUser(User user, UserUpdateReq req) {
+        if (!user.getEmail().equals(req.email()) && userRepository.existsByEmail(req.email()))
             throw new GeneralException(UserErrorStatus.USER_EMAIL_CONFLICT);
 
-        selectedUser.update(req.name(), req.email());
-        userRepository.save(selectedUser);
+        user.update(req);
+        userRepository.save(user);
     }
 
     @Override
     @Transactional
-    public void deleteUser(User selectedUser) {
-        selectedUser.delete();
-        userRepository.save(selectedUser);
+    public void deleteUser(User user) {
+        user.delete();
+        userRepository.save(user);
     }
 
     @Override
     @Transactional
-    public void hardDeleteUser(User selectedUser) {
-        userRepository.delete(selectedUser);
+    public void hardDeleteUser(User user) {
+        userRepository.delete(user);
     }
 }
