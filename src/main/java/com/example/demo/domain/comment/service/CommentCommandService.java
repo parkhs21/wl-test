@@ -30,7 +30,7 @@ public class CommentCommandService {
         if (!comment.getWriter().getId().equals(writerId))
             throw new UnauthorizedUserException();
 
-        comment.update(updateComment.content());
+        comment.update(updateComment);
         commentRepository.save(comment);
     }
 
