@@ -1,7 +1,7 @@
 package com.example.demo.domain.board.service;
 
-import com.example.demo.domain.board.dto.request.BoardCreateReq;
-import com.example.demo.domain.board.dto.response.BoardGetRes;
+import com.example.demo.domain.board.dto.request.CreateBoard;
+import com.example.demo.domain.board.dto.response.GetBoard;
 import com.example.demo.domain.board.entity.Board;
 import com.example.demo.domain.comment.service.CommentMapper;
 import com.example.demo.domain.user.entity.User;
@@ -9,7 +9,7 @@ import com.example.demo.domain.user.service.UserMapper;
 import org.springframework.data.domain.Page;
 
 public class BoardMapper {
-    public static Board toBoard(User writer, BoardCreateReq req) {
+    public static Board toBoard(User writer, CreateBoard req) {
         return Board.builder()
                 .title(req.title())
                 .content(req.content())
@@ -17,8 +17,8 @@ public class BoardMapper {
                 .build();
     }
 
-    public static BoardGetRes toBoardGetRes(Board board) {
-        return BoardGetRes.builder()
+    public static GetBoard toBoardGetRes(Board board) {
+        return GetBoard.builder()
                 .id(board.getId())
                 .title(board.getTitle())
                 .content(board.getContent())
@@ -30,7 +30,7 @@ public class BoardMapper {
                 .build();
     }
 
-    public static Page<BoardGetRes> toBoardsGetRes(Page<Board> boards) {
+    public static Page<GetBoard> toBoardsGetRes(Page<Board> boards) {
         return boards.map(BoardMapper::toBoardGetRes);
     }
 }

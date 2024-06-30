@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
-public record BoardGetRes(
+public record GetBoard(
         Long id,
         String title,
         String content,

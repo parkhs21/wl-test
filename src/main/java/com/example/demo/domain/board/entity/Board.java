@@ -1,5 +1,6 @@
 package com.example.demo.domain.board.entity;
 
+import com.example.demo.domain.board.dto.request.UpdateBoard;
 import com.example.demo.domain.comment.entity.Comment;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.global.entity.BaseEntity;
@@ -49,9 +50,9 @@ public class Board extends BaseEntity {
     @OneToMany(mappedBy = "board", cascade = {CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.DETACH})
     private List<Comment> comments = new ArrayList<>();
 
-    public void update(String title, String content) {
-        this.title = title;
-        this.content = content;
+    public void update(UpdateBoard updateBoard) {
+        this.title = updateBoard.title();
+        this.content = updateBoard.content();
     }
 
     public void like(User user) {
