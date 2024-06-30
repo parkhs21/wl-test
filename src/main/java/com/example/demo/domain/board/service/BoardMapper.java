@@ -9,25 +9,12 @@ import com.example.demo.domain.user.service.UserMapper;
 import org.springframework.data.domain.Page;
 
 public class BoardMapper {
-    public static Board toBoard(User writer, CreateBoard req) {
-        return Board.builder()
-                .title(req.title())
-                .content(req.content())
-                .writer(writer)
-                .build();
+    public static Board toEntity(User writer, CreateBoard createBoard) {
+        return new Board(createBoard.title(), createBoard.content(), writer);
     }
 
     public static GetBoard toBoardGetRes(Board board) {
-        return GetBoard.builder()
-                .id(board.getId())
-                .title(board.getTitle())
-                .content(board.getContent())
-                .writer(UserMapper.toUserGetRes(board.getWriter()))
-                .likeCount(board.getLikeCount())
-                .comments(CommentMapper.toCommentGetResList(board.getComments()))
-                .createdAt(board.getCreatedAt())
-                .updatedAt(board.getUpdatedAt())
-                .build();
+        return new GetBoard(board);
     }
 
     public static Page<GetBoard> toBoardsGetRes(Page<Board> boards) {

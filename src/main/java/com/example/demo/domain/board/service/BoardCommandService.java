@@ -20,7 +20,7 @@ public class BoardCommandService {
 
     @Transactional
     public void createBoard(User user, CreateBoard createBoard) {
-        Board board = BoardMapper.toBoard(user, createBoard);
+        Board board = BoardMapper.toEntity(user, createBoard);
         boardRepository.save(board);
     }
 

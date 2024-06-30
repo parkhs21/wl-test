@@ -1,13 +1,14 @@
 package com.example.demo.domain.board.dto.response;
 
+import com.example.demo.domain.board.entity.Board;
 import com.example.demo.domain.comment.dto.response.CommentGetRes;
+import com.example.demo.domain.comment.service.CommentMapper;
 import com.example.demo.domain.user.dto.response.GetUser;
-import lombok.Builder;
+import com.example.demo.domain.user.service.UserMapper;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Builder
 public record GetBoard(
         Long id,
         String title,
@@ -18,4 +19,7 @@ public record GetBoard(
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
+    public GetBoard(Board board) {
+        this(board.getId(), board.getTitle(), board.getContent(), UserMapper.toUserGetRes(board.getWriter()), board.getLikeCount(), CommentMapper.toCommentGetResList(board.getComments()), board.getCreatedAt(), board.getUpdatedAt());
+    }
 }
