@@ -4,7 +4,6 @@ import com.example.demo.domain.board.entity.Board;
 import com.example.demo.domain.comment.dto.request.CommentCreateReq;
 import com.example.demo.domain.comment.dto.response.CommentGetRes;
 import com.example.demo.domain.comment.entity.Comment;
-import com.example.demo.domain.comment.entity.CommentLike;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.service.UserMapper;
 
@@ -38,11 +37,4 @@ public class CommentMapper {
                 .map(CommentMapper::toCommentGetRes)
                 .collect(Collectors.toList());
     }
-
-//    public static CommentLike toCommentLike(Comment selectedComment, User selectedUser) {
-//        return CommentLike.builder()
-//                .comment(selectedComment)
-//                .user(selectedUser)
-//                .build();
-//    }
 }

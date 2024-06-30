@@ -10,6 +10,5 @@ public interface CommentCommandService {
     void createComment(Board selectedBoard, User writer, CommentCreateReq req);
     void updateComment(Comment selectedComment, Long writerId, CommentUpdateReq req);
     void deleteComment(Comment selectedComment, Long userId);
-//    void likeComment(Comment selectedComment, User selectedUser);
-//    void unlikeComment(Comment selectedComment, User selectedUser);
+    void likeComment(Comment selectedComment, User selectedUser);
 }
