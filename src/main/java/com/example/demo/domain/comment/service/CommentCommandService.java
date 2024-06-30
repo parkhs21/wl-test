@@ -1,14 +1,12 @@
 package com.example.demo.domain.comment.service;
 
-import com.example.demo.domain.board.controller.BoardErrorStatus;
 import com.example.demo.domain.board.entity.Board;
-import com.example.demo.domain.comment.controller.CommentErrorStatus;
 import com.example.demo.domain.comment.dto.request.CreateComment;
 import com.example.demo.domain.comment.dto.request.UpdateComment;
 import com.example.demo.domain.comment.entity.Comment;
 import com.example.demo.domain.comment.repository.CommentRepository;
 import com.example.demo.domain.user.entity.User;
-import com.example.demo.global.exception.GeneralException;
+import com.example.demo.domain.user.exception.UnauthorizedUserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +28,7 @@ public class CommentCommandService {
     @Transactional
     public void updateComment(Comment comment, Long writerId, UpdateComment updateComment) {
         if (!comment.getWriter().getId().equals(writerId))
-            throw new GeneralException(CommentErrorStatus.COMMENT_UNAUTHORIZED);
+            throw new UnauthorizedUserException();
 
         comment.update(updateComment.content());
         commentRepository.save(comment);
@@ -38,7 +36,7 @@ public class CommentCommandService {
 
     public void deleteComment(Comment comment, Long userId) {
         if (!comment.getWriter().getId().equals(userId))
-            throw new GeneralException(BoardErrorStatus.BOARD_UNAUTHORIZED);
+            throw new UnauthorizedUserException();
 
         commentRepository.delete(comment);
     }

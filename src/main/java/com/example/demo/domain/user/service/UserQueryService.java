@@ -1,10 +1,10 @@
 package com.example.demo.domain.user.service;
 
-import com.example.demo.domain.user.controller.UserErrorStatus;
 import com.example.demo.domain.user.entity.User;
 import com.example.demo.domain.user.entity.UserStatus;
+import com.example.demo.domain.user.exception.BadRequestUserException;
+import com.example.demo.domain.user.exception.NotFoundUserException;
 import com.example.demo.domain.user.repository.UserRepository;
-import com.example.demo.global.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,15 +18,15 @@ public class UserQueryService {
 
     public User getUser(Long userId) {
         return userRepository.findByIdAndStatus(userId, UserStatus.ACTIVE)
-                .orElseThrow(() -> new GeneralException(UserErrorStatus.USER_NOT_FOUND));
+                .orElseThrow(NotFoundUserException::new);
     }
 
     public User getInactiveUser(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new GeneralException(UserErrorStatus.USER_NOT_FOUND));
+                .orElseThrow(NotFoundUserException::new);
 
         if (user.getStatus().equals(UserStatus.ACTIVE))
-            throw new GeneralException(UserErrorStatus.USER_NOT_INACTIVE);
+            throw new BadRequestUserException();
 
         return user;
     }

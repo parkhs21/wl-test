@@ -24,11 +24,6 @@ public enum CommonErrorStatus implements BaseStatus {
 
     @Override
     public ReasonDTO getReason() {
-        return ReasonDTO.builder()
-                .isSuccess(false)
-                .code(code)
-                .message(message)
-                .httpStatus(httpStatus)
-                .build();
+        return new ReasonDTO(httpStatus, false, code, message);
     }
 }

@@ -20,11 +20,6 @@ public enum CommonSuccessStatus implements BaseStatus {
 
     @Override
     public ReasonDTO getReason() {
-        return ReasonDTO.builder()
-                .isSuccess(true)
-                .code(code)
-                .message(message)
-                .httpStatus(httpStatus)
-                .build();
+        return new ReasonDTO(httpStatus, true, code, message);
     }
 }

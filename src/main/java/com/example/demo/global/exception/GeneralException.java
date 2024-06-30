@@ -1,17 +1,18 @@
 package com.example.demo.global.exception;
 
-import com.example.demo.global.payload.BaseStatus;
 import com.example.demo.global.payload.ReasonDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
-@Getter
-@AllArgsConstructor
 public class GeneralException extends RuntimeException {
 
-    private BaseStatus code;
+    private final ReasonDTO reason;
+
+    public GeneralException(HttpStatus status, String code, String message) {
+        super(message);
+        this.reason = new ReasonDTO(status, false, code, message);
+    }
 
     public ReasonDTO getErrorReason() {
-        return this.code.getReason();
+        return this.reason;
     }
 }
