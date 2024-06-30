@@ -11,8 +11,6 @@ import java.util.Set;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment extends BaseEntity {
 
@@ -32,9 +30,14 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
-    @Builder.Default
     @OneToMany(mappedBy = "id.comment", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private Set<CommentLike> likes = new HashSet<>();
+
+    public Comment(String content, User writer, Board board) {
+        this.content = content;
+        this.writer = writer;
+        this.board = board;
+    }
 
     public void update(String content) {
         this.content = content;

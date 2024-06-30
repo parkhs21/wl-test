@@ -22,7 +22,7 @@ public class CommentCommandService {
 
     @Transactional
     public void createComment(Board board, User user, CreateComment createComment) {
-        Comment comment = CommentMapper.toComment(board, user, createComment);
+        Comment comment = CommentMapper.toEntity(board, user, createComment);
         board.addComment(comment);
         commentRepository.save(comment);
     }

@@ -12,24 +12,12 @@ import java.util.stream.Collectors;
 
 public class CommentMapper {
 
-    public static Comment toComment(Board board, User writer, CreateComment createComment) {
-        return Comment.builder()
-                .board(board)
-                .writer(writer)
-                .content(createComment.content())
-                .build();
+    public static Comment toEntity(Board board, User writer, CreateComment createComment) {
+        return new Comment(createComment.content(), writer, board);
     }
 
     public static GetComment toCommentGetRes(Comment comment) {
-        return GetComment.builder()
-                .id(comment.getId())
-                .boardId(comment.getBoard().getId())
-                .content(comment.getContent())
-                .writer(UserMapper.toUserGetRes(comment.getWriter()))
-//                .likeCount(comment.getLikeCount())
-                .createdAt(comment.getCreatedAt())
-                .updatedAt(comment.getUpdatedAt())
-                .build();
+        return new GetComment(comment);
     }
 
     public static List<GetComment> toCommentGetResList(List<Comment> comments) {
