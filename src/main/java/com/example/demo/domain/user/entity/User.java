@@ -1,14 +1,12 @@
 package com.example.demo.domain.user.entity;
 
-import com.example.demo.domain.user.dto.request.UserUpdateReq;
+import com.example.demo.domain.user.dto.request.UpdateUser;
 import com.example.demo.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
 
@@ -23,13 +21,17 @@ public class User extends BaseEntity {
     @Column(length = 50, nullable = false, unique = true)
     private String email;
 
-    @Builder.Default
     @Enumerated(EnumType.STRING)
     private UserStatus status = UserStatus.ACTIVE;      // ACTIVE,INACTIVE
 
-    public void update(UserUpdateReq req) {
-        this.name = req.name();
-        this.email = req.email();
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public void update(UpdateUser updateUser) {
+        this.name = updateUser.name();
+        this.email = updateUser.email();
     }
 
     public void delete() {
