@@ -27,7 +27,7 @@ public class CommentMapper {
                 .boardId(comment.getBoard().getId())
                 .content(comment.getContent())
                 .writer(UserMapper.toUserGetRes(comment.getWriter()))
-                .likeCount(comment.getLikeCount())
+//                .likeCount(comment.getLikeCount())
                 .createdAt(comment.getCreatedAt())
                 .updatedAt(comment.getUpdatedAt())
                 .build();
@@ -39,10 +39,10 @@ public class CommentMapper {
                 .collect(Collectors.toList());
     }
 
-    public static CommentLike toCommentLike(Comment selectedComment, User selectedUser) {
-        return CommentLike.builder()
-                .comment(selectedComment)
-                .user(selectedUser)
-                .build();
-    }
+//    public static CommentLike toCommentLike(Comment selectedComment, User selectedUser) {
+//        return CommentLike.builder()
+//                .comment(selectedComment)
+//                .user(selectedUser)
+//                .build();
+//    }
 }

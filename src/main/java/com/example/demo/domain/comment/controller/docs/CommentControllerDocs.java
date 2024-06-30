@@ -33,13 +33,13 @@ public interface CommentControllerDocs {
                                        @PathVariable long commentId,
                                        @RequestParam("userId") long userId);
 
-    @Operation(summary = "댓글 좋아요", description = "댓글에 좋아요 표시합니다.")
-    public ApiPayload<?> likeComment(@PathVariable long boardId,
-                                     @PathVariable long commentId,
-                                     @RequestParam("userId") long userId);
-
-    @Operation(summary = "댓글 좋아요 취소", description = "댓글에 좋아요 표시를 취소합니다.")
-    public ApiPayload<?> unlikeComment(@PathVariable long boardId,
-                                       @PathVariable long commentId,
-                                       @RequestParam("userId") long userId);
+//    @Operation(summary = "댓글 좋아요", description = "댓글에 좋아요 표시합니다.")
+//    public ApiPayload<?> likeComment(@PathVariable long boardId,
+//                                     @PathVariable long commentId,
+//                                     @RequestParam("userId") long userId);
+//
+//    @Operation(summary = "댓글 좋아요 취소", description = "댓글에 좋아요 표시를 취소합니다.")
+//    public ApiPayload<?> unlikeComment(@PathVariable long boardId,
+//                                       @PathVariable long commentId,
+//                                       @RequestParam("userId") long userId);
 }

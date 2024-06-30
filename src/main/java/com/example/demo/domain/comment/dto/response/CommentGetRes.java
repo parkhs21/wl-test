@@ -11,7 +11,7 @@ public record CommentGetRes(
         Long boardId,
         String content,
         UserGetRes writer,
-        Integer likeCount,
+//        Integer likeCount,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
